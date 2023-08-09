@@ -2,49 +2,49 @@ const express = require("express");
 
 let router = express.Router();
 
-let authController = require("./controllers/authController.js")
+let authCtrl = require("./controllers/authController.js")
 
 // Redirect to homepage
 // router.get('/', (req, res) => res.redirect('/points'));
 router.get('/', (req, res) => "This is the main page for the api");
 
-let categoriesController = require("./controllers/categoriesController.js")
+let catsCtrl = require("./controllers/categoriesController.js")
 // Categories list
-router.get('/categories', categoriesController.categoriesList);
+router.get('/categories', catsCtrl.categoriesList);
 
 // Add new category
-router.post('/category', categoriesController.addCategory);
+router.post('/category', catsCtrl.addCategory);
 
 // More info
-router.get('/category/:id', categoriesController.categoryInfo);
-router.put('/category/:id', categoriesController.modifyCategory);
-router.delete('/category/:id', categoriesController.deleteCategory);
+router.get('/category/:id', catsCtrl.categoryInfo);
+router.put('/category/:id', catsCtrl.modifyCategory);
+router.delete('/category/:id', catsCtrl.deleteCategory);
 
 // Points associated to each category
-router.get('/category/:id/points', categoriesController.categoryPointsList);
-router.put('/category/:id/points', categoriesController.categoryPointsListUpdate);
+router.get('/category/:id/points', catsCtrl.categoryPointsList);
+router.put('/category/:id/points', catsCtrl.categoryPointsListUpdate);
 
 // Managing commands
-router.get('/category/:id/details', categoriesController.categoryExtended);
-router.put('/category/:id/activation', categoriesController.categoryActivation);
+router.get('/category/:id/details', catsCtrl.categoryExtended);
+router.put('/category/:id/activation', catsCtrl.categoryActivation);
 
 
-let pointsController = require("./controllers/pointsController.js")
+let pointsCtrl = require("./controllers/pointsController.js")
 // Points list
-router.get('/points', pointsController.pointsList);
-router.post('/points', pointsController.pointsListAdvanced);
+router.get('/points', pointsCtrl.pointsList);
+router.post('/points', pointsCtrl.pointsListAdvanced);
 
 // Add new point
-router.post('/point', pointsController.addPoint);
+router.post('/point', pointsCtrl.addPoint);
 
 // More info
-router.get('/points/:id', pointsController.pointInfo);
-router.put('/points/:id', pointsController.modifyPoint);
-router.delete('/points/:id', pointsController.deletePoint);
+router.get('/point/:id', pointsCtrl.pointInfo);
+router.put('/point/:id', pointsCtrl.modifyPoint);
+router.delete('/point/:id', pointsCtrl.deletePoint);
 
 // Managing commands
-router.get('/points/:id/details', pointsController.pointExtended);
-router.put('/points/:id/activation', pointsController.pointActivation);
+router.get('/point/:id/details', pointsCtrl.pointExtended);
+router.put('/point/:id/activation', pointsCtrl.pointActivation);
 
 
 // Login
