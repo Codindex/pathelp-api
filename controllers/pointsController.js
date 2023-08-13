@@ -95,5 +95,16 @@ exports.pointExtended = async function(req, res) {
 }
 
 exports.pointActivation = async function(req, res) {
-    
+    await db.Point_Owner.update(
+        {
+            is_available: req.body.available
+        },
+        { where: { point_id: req.params.id } }
+    )
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message });
+        })
 }
