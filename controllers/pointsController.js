@@ -1,9 +1,11 @@
 const db = require("../models/index.js");
 const InterestPoint = db.InterestPoint;
 
+const points_attributes = ['point_id', 'name', 'description']
+
 exports.pointsList = async function(req, res) {
     await InterestPoint.findAll({
-        attributes: ['point_id', 'name', 'description']
+        attributes: points_attributes
     })
         .then(data => {
             res.json(data);
@@ -14,12 +16,25 @@ exports.pointsList = async function(req, res) {
 }
 
 exports.pointsListAdvanced = async function(req, res) {
-
+    await InterestPoint.findAll({
+        attributes: points_attributes
+    })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message });
+        })
 }
 
 exports.addPoint = async function(req, res) {
     // print(req.body);
-    let point = InterestPoint.build({ name: req.body.name, description: req.body.description });
+    let point = InterestPoint.build({
+        name: req.body.name,
+        description: req.body.description,
+        categories: req.body.categories,
+        owners: [req.userId]
+    });
     await point.save()
         .then(data => {
             res.json(data);
@@ -31,7 +46,7 @@ exports.addPoint = async function(req, res) {
 
 exports.pointInfo = async function(req, res) {
     await InterestPoint.findOne({
-        attributes: ['point_id', 'name', 'description'],
+        attributes: points_attributes,
         where: { point_id: req.params.id }
     })
         .then(data => {
@@ -44,7 +59,11 @@ exports.pointInfo = async function(req, res) {
 
 exports.modifyPoint = async function(req, res) {
     await InterestPoint.update(
-        { name: req.body.name, description: req.body.description },
+        {
+            name: req.body.name,
+            description: req.body.description,
+            categories: req.body.categories
+        },
         { where: {point_id: req.body.id} }
     )
         .then(data => {
@@ -57,12 +76,12 @@ exports.modifyPoint = async function(req, res) {
 
 exports.deletePoint = async function(req, res) {
     await InterestPoint.destroy({ where: {point_id: req.body.id} })
-    .then(data => {
-        res.json(data);
-    })
-    .catch(err => {
-        res.status(500).json({ message: err.message });
-    })
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(500).json({ message: err.message });
+        })
 }
 
 exports.pointExtended = async function(req, res) {

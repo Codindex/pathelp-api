@@ -61,7 +61,11 @@ exports.deleteCategory = async function(req, res) {
 exports.categoryPointsList = async function(req, res) {
     await Category.findOne({
         where: { category_id: req.params.id },
-        include: [InterestPoint]
+        include: {
+            model: InterestPoint,
+            // Maybe using "order" option to take most famous points
+            limit: 10
+        }
     })
         .then(data => {
             res.json(data);

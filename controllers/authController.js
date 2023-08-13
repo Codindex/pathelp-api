@@ -4,7 +4,6 @@ const db = require("../models/index.js");
 const User = db.User;
 
 const loginKey = 'my_secret_key'
-const adminKey = 'my_admin_key'
 
 exports.createAccount = async function(req, res, next) {
 
@@ -129,7 +128,8 @@ exports.canModify = async function(req, res, next) {
             user_id: req.userId,
             [Op.or]: [
                 { isAdmin: true },
-                { points_owned: req.body.id_point }
+                { points_owned: [req.body.id_point] },
+                { categories_owned: [req.body.id_category] }
             ]
         }
     })
