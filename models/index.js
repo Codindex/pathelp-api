@@ -71,9 +71,9 @@ db.Category.belongsToMany(db.User, {
     foreignKey: "point_id"
 })
 
-db.User.hasMany(db.Point_Owner)
-db.Point_Owner.belongsTo(db.User)
-db.InterestPoint.hasMany(db.Point_Owner)
-db.Point_Owner.belongsTo(db.InterestPoint)
+db.User.hasMany(db.Category_Owner)
+db.Category_Owner.belongsTo(db.User)
+db.Category.hasMany(db.Category_Owner)
+db.Category_Owner.belongsTo(db.Category)
 
 module.exports = db
