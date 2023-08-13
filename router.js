@@ -13,20 +13,20 @@ let catsCtrl = require("./controllers/categoriesController.js")
 router.get('/categories', catsCtrl.categoriesList);
 
 // Add new category
-router.post('/category', catsCtrl.addCategory);
+router.post('/category', authCtrl.isLogin, catsCtrl.addCategory);
 
 // More info
 router.get('/category/:id', catsCtrl.categoryInfo);
-router.put('/category/:id', catsCtrl.modifyCategory);
-router.delete('/category/:id', catsCtrl.deleteCategory);
+router.put('/category/:id', authCtrl.isLogin, authCtrl.canModify, catsCtrl.modifyCategory);
+router.delete('/category/:id', authCtrl.isLogin, authCtrl.canModify, catsCtrl.deleteCategory);
 
 // Points associated to each category
 router.get('/category/:id/points', catsCtrl.categoryPointsList);
-router.put('/category/:id/points', catsCtrl.categoryPointsListUpdate);
+router.put('/category/:id/points', authCtrl.isLogin, authCtrl.canModify, catsCtrl.categoryPointsListUpdate);
 
 // Managing commands
-router.get('/category/:id/details', catsCtrl.categoryExtended);
-router.put('/category/:id/activation', catsCtrl.categoryActivation);
+router.get('/category/:id/details', authCtrl.isLogin, authCtrl.canModify, catsCtrl.categoryExtended);
+router.put('/category/:id/activation', authCtrl.isLogin, authCtrl.canModify, catsCtrl.categoryActivation);
 
 
 let pointsCtrl = require("./controllers/pointsController.js")
@@ -35,16 +35,16 @@ router.get('/points', pointsCtrl.pointsList);
 router.post('/points', pointsCtrl.pointsListAdvanced);
 
 // Add new point
-router.post('/point', pointsCtrl.addPoint);
+router.post('/point', authCtrl.isLogin, pointsCtrl.addPoint);
 
 // More info
 router.get('/point/:id', pointsCtrl.pointInfo);
-router.put('/point/:id', pointsCtrl.modifyPoint);
-router.delete('/point/:id', pointsCtrl.deletePoint);
+router.put('/point/:id', authCtrl.isLogin, authCtrl.canModify, pointsCtrl.modifyPoint);
+router.delete('/point/:id', authCtrl.isLogin, authCtrl.canModify, pointsCtrl.deletePoint);
 
 // Managing commands
-router.get('/point/:id/details', pointsCtrl.pointExtended);
-router.put('/point/:id/activation', pointsCtrl.pointActivation);
+router.get('/point/:id/details', authCtrl.isLogin, authCtrl.canModify, pointsCtrl.pointExtended);
+router.put('/point/:id/activation', authCtrl.isLogin, authCtrl.canModify, pointsCtrl.pointActivation);
 
 
 // Login
