@@ -6,14 +6,26 @@ const User = db.User;
 const loginKey = 'my_secret_key'
 
 exports.createAccount = async function(req, res, next) {
-
+    let username = req.body.username
+    let password = req.body.password
+    let user = await User.build({
+        name: username,
+        password: password
+    })
+    await user.save()
+        .then(data =>
+            res.json(data)
+        )
+        .catch(err =>
+            res.status(500).json({ message: err.message })
+        )
 }
 
 exports.verifyPassword = async function(req, res, next) {
     await User.findOne({
         where: {
             name: req.body.username,
-            // password: req.body.password
+            password: req.body.password
         }
     })
         .then(data => {
@@ -31,7 +43,7 @@ exports.verifyPassword = async function(req, res, next) {
 
 exports.login = async function(req, res, next) {
     const jwtKey = loginKey
-    const jwtExpirySeconds = req.session.cookie.maxAge/1000
+    const jwtExpirySeconds = req.session.cookie.maxAge
 
     let payload = { id: req.idUser }
     let token = jwt.sign(payload, jwtKey, {

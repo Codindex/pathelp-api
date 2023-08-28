@@ -20,7 +20,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: 600000
+        maxAge: 300
     }
 }))
 
@@ -39,7 +39,7 @@ app.use((request, response) => {
 });
 
 // Setup server port
-let port = 8000;
+const port = process.env.NODE_PORT || 3001;
 
 // Launch app to listen to specified port
 app.listen(port, function () {

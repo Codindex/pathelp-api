@@ -48,21 +48,24 @@ router.put('/point/:id/activation', authCtrl.isLogin, authCtrl.canModify, points
 
 
 // Login
-router.post('/login', async function (req , res , next) {
-    const jwt = require("jsonwebtoken")
-    const jwtKey = "my_secret_key"
-    const jwtExpirySeconds = 300
+// router.post('/login', async function (req , res , next) {
+//     const jwt = require("jsonwebtoken")
+//     const jwtKey = "my_secret_key"
+//     const jwtExpirySeconds = 300
 
-    // let payload = { id: user.iduser };
-    let payload = { id: 1 };
-    let token = jwt.sign(payload , jwtKey , {
-        algorithm: "HS256",
-        expiresIn: jwtExpirySeconds
-    })
+//     // let payload = { id: user.iduser };
+//     let payload = { id: 1 };
+//     let token = jwt.sign(payload , jwtKey , {
+//         algorithm: "HS256",
+//         expiresIn: jwtExpirySeconds
+//     })
 
-    res.cookie("token", token, { httpOnly: true, secure: true, maxAge: jwtExpirySeconds * 1000})
-    res.json({token: token , maxAge: jwtExpirySeconds * 1000})
-});
+//     res.cookie("token", token, { httpOnly: true, secure: true, maxAge: jwtExpirySeconds * 1000})
+//     res.json({token: token , maxAge: jwtExpirySeconds * 1000})
+// });
+router.post('/login', authCtrl.verifyPassword, authCtrl.login);
+
+router.post('/user/add', authCtrl.createAccount);
 
 
 module.exports = router
